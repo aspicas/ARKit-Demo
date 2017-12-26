@@ -21,6 +21,9 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     
     var sitesJson : JSON!
     
+    var userHeading = 0.0
+    var headingStep = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
@@ -108,6 +111,18 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        DispatchQueue.main.async {
+            self.headingStep += 1
+            
+            if self.headingStep < 2 { return }
+            
+            self.userHeading = newHeading.magneticHeading
+            self.locationManager.stopUpdatingHeading()
+            self.createSites()
+        }
+    }
+    
     func updateSites() {
         let urlString = "https://en.wikipedia.org/w/api.php?ggscoord=\(userLocation.coordinate.latitude)%7C\(userLocation.coordinate.longitude)&action=query&prop=coordinates%7Cpageimages%7Cpageterms&colimit=50&piprop=thumbnail&pithumbsize=500&pilimit=50&wbptterms=description&generator=geosearch&ggsradius=10000&ggslimit=50&format=json"
         guard let url = URL(string: urlString) else {
@@ -117,6 +132,11 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
         if let data = try? Data(contentsOf: url) {
             sitesJson = JSON(data)
             locationManager.startUpdatingHeading() //Apuntador a la cabeza del usuario.
+            
         }
+    }
+    
+    func createSites() {
+        
     }
 }
