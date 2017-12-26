@@ -14,6 +14,7 @@
 		E4D680711FF284FB00125608 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4D6806F1FF284FB00125608 /* Main.storyboard */; };
 		E4D680731FF284FB00125608 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4D680721FF284FB00125608 /* Assets.xcassets */; };
 		E4D680761FF284FB00125608 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4D680741FF284FB00125608 /* LaunchScreen.storyboard */; };
+		E4D6807E1FF289B100125608 /* SwiftJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4D6807D1FF289B100125608 /* SwiftJSON.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		E4D680721FF284FB00125608 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4D680751FF284FB00125608 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E4D680771FF284FB00125608 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E4D6807D1FF289B100125608 /* SwiftJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftJSON.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				E4D680671FF284FB00125608 /* AppDelegate.swift */,
 				E4D680691FF284FB00125608 /* Scene.sks */,
 				E4D6806B1FF284FB00125608 /* Scene.swift */,
+				E4D6807D1FF289B100125608 /* SwiftJSON.swift */,
 				E4D6806D1FF284FB00125608 /* ViewController.swift */,
 				E4D6806F1FF284FB00125608 /* Main.storyboard */,
 				E4D680721FF284FB00125608 /* Assets.xcassets */,
@@ -144,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4D6806E1FF284FB00125608 /* ViewController.swift in Sources */,
+				E4D6807E1FF289B100125608 /* SwiftJSON.swift in Sources */,
 				E4D6806C1FF284FB00125608 /* Scene.swift in Sources */,
 				E4D680681FF284FB00125608 /* AppDelegate.swift in Sources */,
 			);
