@@ -9,13 +9,21 @@
 import UIKit
 import SpriteKit
 import ARKit
+import CoreLocation
+import GameplayKit
 
-class ViewController: UIViewController, ARSKViewDelegate {
+class ViewController: UIViewController, ARSKViewDelegate, CLLocationManager {
     
     @IBOutlet var sceneView: ARSKView!
     
+    let locationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        locationManager = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -35,6 +43,7 @@ class ViewController: UIViewController, ARSKViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
+//        let configuration = ARSessionConfiguration()
 
         // Run the view's session
         sceneView.session.run(configuration)
@@ -55,11 +64,7 @@ class ViewController: UIViewController, ARSKViewDelegate {
     // MARK: - ARSKViewDelegate
     
     func view(_ view: ARSKView, nodeFor anchor: ARAnchor) -> SKNode? {
-        // Create and configure a node for the anchor added to the view's session.
-        let labelNode = SKLabelNode(text: "👾")
-        labelNode.horizontalAlignmentMode = .center
-        labelNode.verticalAlignmentMode = .center
-        return labelNode;
+        return nil
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
