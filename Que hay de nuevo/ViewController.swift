@@ -19,6 +19,8 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     let locationManager = CLLocationManager()
     var userLocation = CLLocation() //Me da una posicion
     
+    var sitesJson : JSON!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
@@ -107,6 +109,14 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     }
     
     func updateSites() {
+        let urlString = "https://en.wikipedia.org/w/api.php?ggscoord=\(userLocation.coordinate.latitude)%7C\(userLocation.coordinate.longitude)&action=query&prop=coordinates%7Cpageimages%7Cpageterms&colimit=50&piprop=thumbnail&pithumbsize=500&pilimit=50&wbptterms=description&generator=geosearch&ggsradius=10000&ggslimit=50&format=json"
+        guard let url = URL(string: urlString) else {
+            return
+        }
         
+        if let data = try? Data(contentsOf: url) {
+            sitesJson = JSON(data)
+            locationManager.startUpdatingHeading() //Apuntador a la cabeza del usuario.
+        }
     }
 }
