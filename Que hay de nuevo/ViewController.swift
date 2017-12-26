@@ -16,8 +16,8 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     
     @IBOutlet var sceneView: ARSKView!
     
-    var locationManager = CLLocationManager()
-
+    let locationManager = CLLocationManager()
+    var userLocation = CLLocation() //Me da una posicion
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,6 +79,34 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     
     func sessionInterruptionEnded(_ session: ARSession) {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
+        
+    }
+    
+    //MARK: CLLocationManager
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManager.requestLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else {
+            return
+        }
+        
+        userLocation = location
+        
+        //Correr en segundo plano para enfriar la aplicación
+        DispatchQueue.global().async {
+            self.updateSites()
+        }
+    }
+    
+    func updateSites() {
         
     }
 }
