@@ -139,4 +139,23 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     func createSites() {
         
     }
+    
+    //MARK: Mathematical Library
+    func deg2Rad(_ degrees: Double) -> Double {
+        return degrees * Double.pi / 180.0
+    }
+    
+    func rad2Deg(_ radians: Double) -> Double {
+        return radians * 180 / Double.pi
+    }
+    
+    //atag2 ( sen(dif long)  *  cos(long2), cos(lat1) * sen(lat2) - cos(lat2) * sen(lat1) * cos(dif long))
+    func direction(from p1: CLLocation, to p2: CLLocation) -> Double {
+        let dif_long = p2.coordinate.longitude - p1.coordinate.longitude
+        let y = sin(dif_long) * cos(p2.coordinate.longitude)
+        let x = cos(p1.coordinate.latitude) * sin(p2.coordinate.latitude) - cos(p2.coordinate.latitude) * sin(p1.coordinate.latitude) * cos(dif_long)
+        
+        let atan_rad = atan2(y, x)
+        
+        return rad2Deg(atan_rad)
 }
