@@ -24,6 +24,8 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     var userHeading = 0.0
     var headingStep = 0
     
+    var sites = [UUID: String]() //
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         locationManager.delegate = self
@@ -137,7 +139,33 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     }
     
     func createSites() {
+        //Hacer un bucle de todos los lugares que ocupa el JSON de la wikipedia.
+        for pages in sitesJson["query"]["pages"].dictionaryValue.values {
+            //Ubicar latitud y longitud de esos lugares
+            let lat = pages["coordinates"][0]["lat"].doubleValue
+            let lon = pages["coordinates"][0]["lon"].doubleValue
+            let location = CLLocation(latitude: lat, longitude: lon)
+            
+            //Calcular la distancia y la direccion (azimut, cuando miramos las estrellas) desde el usuario hasta ese lugar.
+            let distance = Float(userLocation.distance(from: location))
+            let azimut = direction(from: userLocation, to: location)
+            
+            //Sacar ángulo entre azimut y la dirección del usuario
+            let angle = azimut - userHeading
+            let angleRad = deg2Rad(angle)
+        }
         
+        
+        
+        //Crear las matrices de rotacion para posicionar horizontalmente el ancla
+        
+        //Crear la matriz para la rotacion vertical basada en la distancia
+        
+        //Multiplicar las matrices de rotacion anteriores y multiplicarlas por la camara de ARKit
+        
+        //Crear una matriz de identidad y moverla una cierta cantidad dependiendo de donde posicionar el objeto en profundidad.
+        
+        //Posicionaremos el ancla y le daremos un identificador para localizarlo en escena
     }
     
     //MARK: Mathematical Library
