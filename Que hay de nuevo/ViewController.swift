@@ -24,7 +24,7 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     var userHeading = 0.0
     var headingStep = 0
     
-    var sites = [UUID: String]() //
+    var sites = [UUID: String]() //UUID = Identificador del ancla
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -153,19 +153,40 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
             //Sacar ángulo entre azimut y la dirección del usuario
             let angle = azimut - userHeading
             let angleRad = deg2Rad(angle)
+            
+            //Crear las matrices de rotacion para posicionar horizontalmente el ancla
+//            let horizontalRotation = SCNMatrix4ToGLKMatrix4(SCNMatrix4MakeRotation(Float(angleRad), 1, 0, 0))
+            let horizontalRotation = simd_float4x4(SCNMatrix4MakeRotation(Float(angleRad), 1, 0, 0))
+            
+            //Crear la matriz para la rotacion vertical basada en la distancia
+//            let verticalRotation = SCNMatrix4ToGLKMatrix4(SCNMatrix4MakeRotation(-0.3 + Float(distance/500), 0, 1, 0))
+            let verticalRotation = simd_float4x4(SCNMatrix4MakeRotation(-0.3 + Float(distance/500), 0, 1, 0))
+            
+            //Multiplicar las matrices de rotacion anteriores y multiplicarlas por la camara de ARKit
+            let rotation = simd_mul(horizontalRotation, verticalRotation)
+            
+            //Crear una matriz de identidad y moverla una cierta cantidad dependiendo de donde posicionar el objeto en profundidad.
+            guard let sceneView = self.view as? ARSKView else {
+               return
+            }
+            
+            guard let currentFrame =  sceneView.session.currentFrame else {
+                return
+            }
+            
+            let rotation2 = simd_mul(currentFrame.camera.transform, rotation)
+            
+            //Posicionaremos el ancla y le daremos un identificador para localizarlo en escena
+            var translation = matrix_identity_float4x4
+            translation.columns.3.z = -(distance / 50)
+            
+            let transform = simd_mul(rotation2, translation)
+            
+            let anchor = ARAnchor(transform: transform)
+            sceneView.session.add(anchor: anchor)
+            sites[anchor.identifier] = pages["title"].string ?? "Lugar desconocido"
         }
         
-        
-        
-        //Crear las matrices de rotacion para posicionar horizontalmente el ancla
-        
-        //Crear la matriz para la rotacion vertical basada en la distancia
-        
-        //Multiplicar las matrices de rotacion anteriores y multiplicarlas por la camara de ARKit
-        
-        //Crear una matriz de identidad y moverla una cierta cantidad dependiendo de donde posicionar el objeto en profundidad.
-        
-        //Posicionaremos el ancla y le daremos un identificador para localizarlo en escena
     }
     
     //MARK: Mathematical Library
@@ -186,4 +207,6 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
         let atan_rad = atan2(y, x)
         
         return rad2Deg(atan_rad)
+    }
+    
 }
