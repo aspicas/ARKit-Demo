@@ -17,10 +17,10 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     @IBOutlet var sceneView: ARSKView!
     
     var locationManager = CLLocationManager()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
