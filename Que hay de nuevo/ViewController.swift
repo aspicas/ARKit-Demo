@@ -71,7 +71,23 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
     // MARK: - ARSKViewDelegate
     
     func view(_ view: ARSKView, nodeFor anchor: ARAnchor) -> SKNode? {
-        return nil
+        let labelNode = SKLabelNode(text: sites[anchor.identifier])
+        labelNode.horizontalAlignmentMode = .center
+        labelNode.verticalAlignmentMode = .center
+        
+        let newSize = labelNode.frame.size.applying(CGAffineTransform(scaleX: 1.1, y: 1.5))
+        
+        let backgroundNode = SKShapeNode(rectOf: newSize, cornerRadius: 10)
+        
+        let randomColor = UIColor(hue: CGFloat(GKRandomSource.sharedRandom().nextUniform()), saturation: 0.5, brightness: 0.4, alpha: 0.9)
+        backgroundNode.fillColor = randomColor
+        
+        backgroundNode.strokeColor = randomColor.withAlphaComponent(1.0)
+        backgroundNode.lineWidth = 2
+        
+        backgroundNode.addChild(labelNode)
+        
+        return backgroundNode
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
