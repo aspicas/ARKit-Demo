@@ -194,7 +194,7 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
             
             //Posicionaremos el ancla y le daremos un identificador para localizarlo en escena
             var translation = matrix_identity_float4x4
-            translation.columns.3.z = -(distance / 50)
+            translation.columns.3.z = -(distance / 1000)
             
             let transform = simd_mul(rotation2, translation)
             
