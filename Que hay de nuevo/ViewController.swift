@@ -200,7 +200,7 @@ class ViewController: UIViewController, ARSKViewDelegate, CLLocationManagerDeleg
             
             let anchor = ARAnchor(transform: transform)
             sceneView.session.add(anchor: anchor)
-            sites[anchor.identifier] = pages["title"].string ?? "Lugar desconocido"
+            sites[anchor.identifier] = "\(pages["title"].string) - \(distance) metrosø" ?? "Lugar desconocido"
         }
         
     }
